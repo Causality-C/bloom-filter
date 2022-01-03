@@ -17,7 +17,7 @@ void bit_map_store(struct bit_map *b, char *file_name);
 void bit_map_destroy(struct bit_map **b);
 void bit_map_set(struct bit_map *b, uint64_t i);
 uint32_t bit_map_get(struct bit_map *b, uint64_t q);
-
 void check_file_read(char *file_name, FILE *fp, size_t exp, size_t obs);
+uint32_t bit_map_in_bytes(struct bit_map *b);
 
 #endif

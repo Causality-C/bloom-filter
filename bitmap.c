@@ -120,3 +120,8 @@ void check_file_read(char *file_name, FILE *fp, size_t exp, size_t obs)
         err(EX_IOERR, "Error reading file \"%s\"", file_name);
     }
 }
+
+// Calc: num_ints (32 bit -> 4 bytes) + 4 bit num_ints variable + 8 bit num_bits variable
+uint32_t bit_map_in_bytes(struct bit_map *b){
+    return b->num_ints * 4 + 4 + 8;
+}
