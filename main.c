@@ -10,9 +10,9 @@
 
 
 #define VECTOR_SIZE 10
-#define FALSE_POSITIVE_RATE 0.01
+#define FALSE_POSITIVE_RATE 0.7
 
-// Test bloom filter by reading file, determining optimal paramters based upon a 0.1% false positive rate,
+// Test bloom filter by reading file, determining optimal paramters based upon a false positive rate,
 // and constructing a bloom filter based on those optimal parameters. 
 // Ideally, the contents of this file should be duplicate free
 
@@ -42,7 +42,6 @@ int main(int argc, char * argv[]){
 
     // Read in words to get 
     while ((read = getline(&line, &len, fp)) != -1) {
-        
         vector_insert(arr,line,read);
     }
 
@@ -59,7 +58,9 @@ int main(int argc, char * argv[]){
     for(int i = 0; i < vector_size(arr); i++){
         char * word = vector_at(arr,i);
         if(bloom_filter_search(bf,word)){
-            printf("Duplicate Word Found: %s\n", word);
+            #ifdef DEBUG
+                printf("Duplicate Word Found: %s\n", word);
+            #endif
             duplicates++;
         }
         bloom_filter_insert(bf,word);
@@ -71,7 +72,8 @@ int main(int argc, char * argv[]){
 
     // Print True False Positive Values
     printf("Duplicates/False Positives: %d/%ld\n", duplicates, bf->num_entries);
-    printf("True False Positive Rate: %f\n", (double) duplicates/ (double) bf->num_entries);
+    printf("Empirical False Positive Rate: %f\n", (double) duplicates / (double) bf->num_entries);
+    printf("Expected False Positives: %f\n",FALSE_POSITIVE_RATE * bf->num_entries);
 
     // Free everything
     vector_free(arr);

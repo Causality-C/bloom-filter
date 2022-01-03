@@ -35,7 +35,7 @@ bool bloom_filter_insert(struct bloom_filter * b, char * word){
         uint32_t index = murmurhash(word,sizeof(word),seed) % bits;
         bit_map_set(bm,index);
     }
-    
+
     b->num_entries++;
 
     return true; 
