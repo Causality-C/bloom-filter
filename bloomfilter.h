@@ -1,6 +1,14 @@
-#ifndef __BLOOMFILTER_H__
+#ifndef __BLOOMFLITER_H__
 #define __BLOOMFLITER_H__
 
+/**
+ * Defines and Implements basic bloom filter functionality:
+ * - Creation of filter 
+ * - Insertion -- uses murmur3 hash with different seeds
+ * - Search: will never produce false negatives, it is possible to produce false positives
+ * - Printing of the bitmap used in the filter
+ * - Optimal creation parameters based on # of words in the filter
+ */
 
 #include <stdint.h>
 #include <stdbool.h>

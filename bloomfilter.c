@@ -3,12 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-// https://layerlab.org/2018/06/07/My-bitmap.html
 #include "bitmap.h"
 #include "bloomfilter.h"
 #include "hashfuncs.h"
-
-#define SEED 42
 
 
 struct bloom_filter * bloom_filter_init(uint64_t bits, uint32_t hashes){
@@ -32,7 +29,8 @@ bool bloom_filter_insert(struct bloom_filter * b, char * word){
     uint32_t num_hashes = b->num_hashes;
 
     for(unsigned int seed = 0; seed < num_hashes; seed++){
-        uint32_t index = murmurhash(word,sizeof(word),seed) % bits;
+        uint32_t index = murmurhash(word,sizeof(word),seed);
+        index %= bits;
         bit_map_set(bm,index);
     }
 
@@ -48,7 +46,8 @@ bool bloom_filter_search(struct bloom_filter * b, char * word){
     bool all_found = true;
 
     for(unsigned int seed = 0; seed < num_hashes; seed++){
-        uint32_t index = murmurhash(word,sizeof(word),seed) % bits;
+        uint32_t index = murmurhash(word,sizeof(word),seed);
+        index %= bits;
         all_found &= bit_map_get(bm,index);
     }
     return all_found;

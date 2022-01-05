@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-// A simple dynamic array implementation for strings, currently does not support removal
+/**
+ * A simple dynamic array implementation for strings, currently does not support removal of elements
+ */
 
 struct vector{
     char ** array;

@@ -9,12 +9,15 @@
 #include "vector.h"
 
 
+// Tweak these parameters
 #define VECTOR_SIZE 10
-#define FALSE_POSITIVE_RATE 0.7
+#define FALSE_POSITIVE_RATE 0.01
 
-// Test bloom filter by reading file, determining optimal paramters based upon a false positive rate,
-// and constructing a bloom filter based on those optimal parameters. 
-// Ideally, the contents of this file should be duplicate free
+/**
+ * Test bloom filter by reading file, determining optimal paramters based upon a false positive rate,
+ * constructing a bloom filter based on those optimal parameters, and testing the false positive rate.
+ * Ideally, the contents of this file should be duplicate free
+ */
 
 int main(int argc, char * argv[]){
 
@@ -24,6 +27,7 @@ int main(int argc, char * argv[]){
         exit(1);
     }
 
+    // Needed to read from files
     FILE * fp;
     char * line = NULL;
     size_t len = 0;
@@ -35,7 +39,6 @@ int main(int argc, char * argv[]){
         printf("File not found\n");
         exit(1);
     }
-
 
     // Store Words in Dynamic Array
     struct vector * arr = vector_init(VECTOR_SIZE);
@@ -71,7 +74,7 @@ int main(int argc, char * argv[]){
     printf("Size of bloom filter: %d\n\n", bit_map_in_bytes(bf->bf));
 
     // Print True False Positive Values
-    printf("Duplicates/False Positives: %d/%ld\n", duplicates, bf->num_entries);
+    printf("Duplicates/False Positives: %d/%llu\n", duplicates, bf->num_entries);
     printf("Empirical False Positive Rate: %f\n", (double) duplicates / (double) bf->num_entries);
     printf("Expected False Positives: %f\n",FALSE_POSITIVE_RATE * bf->num_entries);
 
